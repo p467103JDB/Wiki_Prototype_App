@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wiki_Prototype_App", "Wiki_Prototype_App\Wiki_Prototype_App.csproj", "{BE6AE9F2-C4F5-46F0-A975-8EA8B85FAA03}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wiki_Prototype", "Wiki_Prototype\Wiki_Prototype.csproj", "{453E5F59-9FFE-4970-BC62-DC0B25E3D279}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BE6AE9F2-C4F5-46F0-A975-8EA8B85FAA03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE6AE9F2-C4F5-46F0-A975-8EA8B85FAA03}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE6AE9F2-C4F5-46F0-A975-8EA8B85FAA03}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE6AE9F2-C4F5-46F0-A975-8EA8B85FAA03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{453E5F59-9FFE-4970-BC62-DC0B25E3D279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{453E5F59-9FFE-4970-BC62-DC0B25E3D279}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{453E5F59-9FFE-4970-BC62-DC0B25E3D279}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{453E5F59-9FFE-4970-BC62-DC0B25E3D279}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {94C21DC5-1287-4C2F-AE01-E5FEFC1BF000}
+		SolutionGuid = {BF1D8C57-C2E0-41A4-BD7A-D82BA052C5F9}
 	EndGlobalSection
 EndGlobal
