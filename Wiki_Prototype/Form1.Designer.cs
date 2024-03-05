@@ -41,7 +41,7 @@
             this.button_Load = new System.Windows.Forms.Button();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.listView_Array = new System.Windows.Forms.ListView();
             this.button_Add = new System.Windows.Forms.Button();
             this.button_Delete = new System.Windows.Forms.Button();
             this.button_Edit = new System.Windows.Forms.Button();
@@ -169,14 +169,14 @@
             this.label5.TabIndex = 13;
             this.label5.Text = "Search";
             // 
-            // listView1
+            // listView_Array
             // 
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(55, 192);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(450, 475);
-            this.listView1.TabIndex = 14;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView_Array.HideSelection = false;
+            this.listView_Array.Location = new System.Drawing.Point(55, 192);
+            this.listView_Array.Name = "listView_Array";
+            this.listView_Array.Size = new System.Drawing.Size(450, 475);
+            this.listView_Array.TabIndex = 14;
+            this.listView_Array.UseCompatibleStateImageBehavior = false;
             // 
             // button_Add
             // 
@@ -231,7 +231,7 @@
             this.Controls.Add(this.button_Edit);
             this.Controls.Add(this.button_Delete);
             this.Controls.Add(this.button_Add);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.listView_Array);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.button_Load);
@@ -267,7 +267,7 @@
         private System.Windows.Forms.Button button_Load;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView listView_Array;
         private System.Windows.Forms.Button button_Add;
         private System.Windows.Forms.Button button_Delete;
         private System.Windows.Forms.Button button_Edit;
