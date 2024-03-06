@@ -30,7 +30,8 @@
         {
             this.textBox_Definition = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.textBox_Data = new System.Windows.Forms.TextBox();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.textBox_Name = new System.Windows.Forms.TextBox();
             this.textBox_Category = new System.Windows.Forms.TextBox();
             this.textBox_Struct = new System.Windows.Forms.TextBox();
             this.button_Save = new System.Windows.Forms.Button();
@@ -39,13 +40,19 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.button_Load = new System.Windows.Forms.Button();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox_Search = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.listView_Array = new System.Windows.Forms.ListView();
+            this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnCategory = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnStructure = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnDefinition = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button_Add = new System.Windows.Forms.Button();
             this.button_Delete = new System.Windows.Forms.Button();
             this.button_Edit = new System.Windows.Forms.Button();
-            this.button_Reset = new System.Windows.Forms.Button();
+            this.button_Clear = new System.Windows.Forms.Button();
+            this.button_Search = new System.Windows.Forms.Button();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox_Definition
@@ -59,19 +66,27 @@
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.statusStrip1.Location = new System.Drawing.Point(0, 844);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 834);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1346, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1346, 32);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // textBox_Data
+            // toolStripStatusLabel1
             // 
-            this.textBox_Data.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Data.Location = new System.Drawing.Point(591, 117);
-            this.textBox_Data.Name = "textBox_Data";
-            this.textBox_Data.Size = new System.Drawing.Size(556, 35);
-            this.textBox_Data.TabIndex = 2;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(179, 25);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // textBox_Name
+            // 
+            this.textBox_Name.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_Name.Location = new System.Drawing.Point(591, 117);
+            this.textBox_Name.Name = "textBox_Name";
+            this.textBox_Name.Size = new System.Drawing.Size(556, 35);
+            this.textBox_Name.TabIndex = 2;
             // 
             // textBox_Category
             // 
@@ -151,13 +166,13 @@
             this.button_Load.UseVisualStyleBackColor = true;
             this.button_Load.Click += new System.EventHandler(this.button_Load_Click);
             // 
-            // textBox5
+            // textBox_Search
             // 
-            this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox5.Location = new System.Drawing.Point(55, 117);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(450, 35);
-            this.textBox5.TabIndex = 12;
+            this.textBox_Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_Search.Location = new System.Drawing.Point(55, 117);
+            this.textBox_Search.Name = "textBox_Search";
+            this.textBox_Search.Size = new System.Drawing.Size(321, 35);
+            this.textBox_Search.TabIndex = 12;
             // 
             // label5
             // 
@@ -171,12 +186,40 @@
             // 
             // listView_Array
             // 
+            this.listView_Array.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnName,
+            this.columnCategory,
+            this.columnStructure,
+            this.columnDefinition});
+            this.listView_Array.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listView_Array.HideSelection = false;
             this.listView_Array.Location = new System.Drawing.Point(55, 192);
             this.listView_Array.Name = "listView_Array";
             this.listView_Array.Size = new System.Drawing.Size(450, 475);
             this.listView_Array.TabIndex = 14;
             this.listView_Array.UseCompatibleStateImageBehavior = false;
+            this.listView_Array.View = System.Windows.Forms.View.Details;
+            this.listView_Array.Click += new System.EventHandler(this.listView_Array_Click);
+            // 
+            // columnName
+            // 
+            this.columnName.Text = "Name";
+            this.columnName.Width = 160;
+            // 
+            // columnCategory
+            // 
+            this.columnCategory.Text = "Category";
+            this.columnCategory.Width = 160;
+            // 
+            // columnStructure
+            // 
+            this.columnStructure.Text = "Structure";
+            this.columnStructure.Width = 0;
+            // 
+            // columnDefinition
+            // 
+            this.columnDefinition.Text = "Definition";
+            this.columnDefinition.Width = 0;
             // 
             // button_Add
             // 
@@ -211,29 +254,41 @@
             this.button_Edit.UseVisualStyleBackColor = true;
             this.button_Edit.Click += new System.EventHandler(this.button_Edit_Click);
             // 
-            // button_Reset
+            // button_Clear
             // 
-            this.button_Reset.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Reset.Location = new System.Drawing.Point(1176, 710);
-            this.button_Reset.Name = "button_Reset";
-            this.button_Reset.Size = new System.Drawing.Size(128, 57);
-            this.button_Reset.TabIndex = 18;
-            this.button_Reset.Text = "Reset";
-            this.button_Reset.UseVisualStyleBackColor = true;
-            this.button_Reset.Click += new System.EventHandler(this.button_Reset_Click);
+            this.button_Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Clear.Location = new System.Drawing.Point(1176, 710);
+            this.button_Clear.Name = "button_Clear";
+            this.button_Clear.Size = new System.Drawing.Size(128, 57);
+            this.button_Clear.TabIndex = 18;
+            this.button_Clear.Text = "Clear";
+            this.button_Clear.UseVisualStyleBackColor = true;
+            this.button_Clear.Click += new System.EventHandler(this.button_Reset_Click);
+            // 
+            // button_Search
+            // 
+            this.button_Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Search.Location = new System.Drawing.Point(382, 106);
+            this.button_Search.Name = "button_Search";
+            this.button_Search.Size = new System.Drawing.Size(128, 57);
+            this.button_Search.TabIndex = 19;
+            this.button_Search.Text = "Search";
+            this.button_Search.UseVisualStyleBackColor = true;
+            this.button_Search.Click += new System.EventHandler(this.button_Search_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1346, 866);
-            this.Controls.Add(this.button_Reset);
+            this.Controls.Add(this.button_Search);
+            this.Controls.Add(this.button_Clear);
             this.Controls.Add(this.button_Edit);
             this.Controls.Add(this.button_Delete);
             this.Controls.Add(this.button_Add);
             this.Controls.Add(this.listView_Array);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.textBox_Search);
             this.Controls.Add(this.button_Load);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -242,11 +297,13 @@
             this.Controls.Add(this.button_Save);
             this.Controls.Add(this.textBox_Struct);
             this.Controls.Add(this.textBox_Category);
-            this.Controls.Add(this.textBox_Data);
+            this.Controls.Add(this.textBox_Name);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.textBox_Definition);
             this.Name = "Form1";
             this.Text = "Wiki Prototype Program";
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -256,7 +313,7 @@
 
         private System.Windows.Forms.TextBox textBox_Definition;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.TextBox textBox_Data;
+        private System.Windows.Forms.TextBox textBox_Name;
         private System.Windows.Forms.TextBox textBox_Category;
         private System.Windows.Forms.TextBox textBox_Struct;
         private System.Windows.Forms.Button button_Save;
@@ -265,13 +322,19 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button_Load;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox_Search;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ListView listView_Array;
         private System.Windows.Forms.Button button_Add;
         private System.Windows.Forms.Button button_Delete;
         private System.Windows.Forms.Button button_Edit;
-        private System.Windows.Forms.Button button_Reset;
+        private System.Windows.Forms.Button button_Clear;
+        private System.Windows.Forms.ColumnHeader columnName;
+        private System.Windows.Forms.ColumnHeader columnCategory;
+        private System.Windows.Forms.ColumnHeader columnStructure;
+        private System.Windows.Forms.ColumnHeader columnDefinition;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.Button button_Search;
     }
 }
 
