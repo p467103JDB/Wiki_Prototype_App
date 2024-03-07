@@ -127,9 +127,9 @@ namespace Wiki_Prototype
         {
             if (listView_Array.SelectedIndices.Count > 0) // straight forward, if there isnt any items dont delete lol
             {
-                int selectedInde = listView_Array.SelectedIndices[0]; // get selected
+                int selectedIndex = listView_Array.SelectedIndices[0]; // get selected
 
-                // Prompt user first before delete
+                // Prompt user first with messagebox before delete
                 DialogResult result = MessageBox.Show("Do you want to delete this item?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 // Check the user's choice
@@ -137,12 +137,12 @@ namespace Wiki_Prototype
                 {
                     for (int i = 0; i < Col; i++)
                     {
-                        GlobalArray[selectedInde, i] = null;
+                        GlobalArray[selectedIndex, i] = null;
                     }
                     CurrentTotal--;
                     InitializeListView(listView_Array);
                     button_Reset_Click(sender, e);
-                    toolStripStatusLabel1.Text = "Succesfully deleted item at index: " + selectedInde;
+                    toolStripStatusLabel1.Text = "Succesfully deleted item at index: " + selectedIndex;
                 }
                 else
                 {
@@ -151,26 +151,29 @@ namespace Wiki_Prototype
             }
             else
             {
-                toolStripStatusLabel1.Text = "Cannot delete item, no item or data availiable.";
+                toolStripStatusLabel1.Text = "Cannot delete item, no item selected abd no data availiable.";
             }
         }
 
         private void button_Edit_Click(object sender, EventArgs e)
         {
+            // Check for criteria text boxes - They should not be empty
             if (listView_Array.SelectedIndices.Count > 0 && !string.IsNullOrEmpty(textBox_Name.Text) && !string.IsNullOrEmpty(textBox_Category.Text) && !string.IsNullOrEmpty(textBox_Struct.Text) && !string.IsNullOrEmpty(textBox_Definition.Text))
             {
-                int selectedIndex = listView_Array.SelectedIndices[0];
-                GlobalArray[selectedIndex, 0] = textBox_Name.Text;
-                GlobalArray[selectedIndex, 1] = textBox_Category.Text;
+                int selectedIndex = listView_Array.SelectedIndices[0];  // there can only be one as multiselect isnt enabled
+                GlobalArray[selectedIndex, 0] = textBox_Name.Text;      // set text in array to the textbox text
+                GlobalArray[selectedIndex, 1] = textBox_Category.Text;  
                 GlobalArray[selectedIndex, 2] = textBox_Struct.Text;
                 GlobalArray[selectedIndex, 3] = textBox_Definition.Text;
+
+                // run through methods to update list and then clear boxes once done
                 InitializeListView(listView_Array);
                 button_Reset_Click(sender, e);
                 toolStripStatusLabel1.Text = "Succesfully edited item at index: " + selectedIndex;
             }
             else if(listView_Array.SelectedIndices.Count == 0)
             {
-                toolStripStatusLabel1.Text = "Could not edit item as there is no item.";
+                toolStripStatusLabel1.Text = "Could not edit item as there is no item selected and there isnt one avaliable.";
             }
             else
             {
@@ -200,10 +203,12 @@ namespace Wiki_Prototype
 
         private void listView_Array_Click(object sender, EventArgs e)
         {
+            // If user clicks on the left cell
             if (listView_Array.SelectedIndices.Count > 0)
             {
                 int selectedIndex = listView_Array.SelectedIndices[0];
 
+                // Present the array data for that index
                 textBox_Name.Text = GlobalArray[selectedIndex, 0];
                 textBox_Category.Text = GlobalArray[selectedIndex, 1];
                 textBox_Struct.Text = GlobalArray[selectedIndex, 2];
@@ -216,7 +221,7 @@ namespace Wiki_Prototype
         {
             // perform binary search
             string search = textBox_Search.Text;
-            if (!string.IsNullOrEmpty(search) && CurrentTotal > 1)
+            if (!string.IsNullOrEmpty(search) && CurrentTotal > 0)
             {
                 int foundIndex = -1;
                 int left = 0;
@@ -249,26 +254,19 @@ namespace Wiki_Prototype
                         }
                     }
                 }
-
-                catch (Exception exc)
+                catch (Exception exc) // what bronk? only used for testing and getting out of bounds... sigh
                 {
                     toolStripStatusLabel1.Text = exc.Message;
                 }
 
                 if (foundIndex != -1)
                 {
-                    toolStripStatusLabel1.Text = $"Binary search - Found at index: {foundIndex}";
+                    toolStripStatusLabel1.Text = "Binary search - Found at index: " + foundIndex;
                 }
                 else
                 {
                     toolStripStatusLabel1.Text = "Search item not found.";
                 }
-            }
-
-            // Cant search with less than 2
-            else if (CurrentTotal < 2)
-            {
-                toolStripStatusLabel1.Text = "Cannot binary search with less than 2 items in list.";
             }
 
             // Can't search with empty text box
