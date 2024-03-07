@@ -18,13 +18,13 @@ namespace Wiki_Prototype
             InitializeGlobalArray(listView_Array);
         }
 
-        // Initialize globals
-        static readonly int Col = 4;    // AFAIK, capital first letters are used for public global variables - Pascal Case
-        static readonly int Row = 12;   // Also, static is a changeable data type which is good. but readonly makes it similar to a constant and these are supposed to be the maximum amount.
-        static int CurrentTotal = 0;    // this keeps track of the actual number of items in the list
-        string[,] GlobalArray = new string[Row, Col];
+        // Initialize globals   
+        static readonly int Col = 4;                    // AFAIK, capital first letters are used for public global variables - Pascal Case
+        static readonly int Row = 12;                   // Also, static is a changeable data type which is good. but readonly makes it similar to a constant and this is supposed to be the maximum amount.
+        static int CurrentTotal = 0;                    // this keeps track of the actual number of items in the list
+        string[,] GlobalArray = new string[Row, Col];   // GlobalArray is the 2D array
 
-        // This can function as a reset
+        // This can function as a reset if part 2 of this assignment needs a reset button for the whole array - otherwise it's actually redundant
         private void InitializeGlobalArray(ListView listView_Array)
         {
             for (int i = 0; i < Row; i++)
@@ -66,9 +66,9 @@ namespace Wiki_Prototype
                         isSwapped = false; // every loop will set to false if it's false then break out of loop if all is done
                         for (int j = 0; j < CurrentTotal - 1; j++) // -1 otherwise we out of bounds bruh
                         {
-                            if (string.Compare(GlobalArray[j, 0], GlobalArray[j + 1, 0]) > 0) // String compare, swap in ascending order - not worried about duplicates just yet, i fully expect them to show up though
+                            if (string.Compare(GlobalArray[j, 0], GlobalArray[j + 1, 0]) > 0) // String compare, swap in ascending order - not worried about duplicates just yet, i fully expect them to show up in part 2 though
                             {
-                                // using the swapsie tuple decontructor again :^) 
+                                // using the swapsie tuple decontructor again coz it's cooler than using a new dummy temp var :^) 
                                 (GlobalArray[j, 0], GlobalArray[j + 1, 0]) = (GlobalArray[j + 1, 0], GlobalArray[j, 0]);    // Swap name
                                 (GlobalArray[j, 1], GlobalArray[j + 1, 1]) = (GlobalArray[j + 1, 1], GlobalArray[j, 1]);    // Swap category
                                 (GlobalArray[j, 2], GlobalArray[j + 1, 2]) = (GlobalArray[j + 1, 2], GlobalArray[j, 2]);    // Swap structure
@@ -90,33 +90,32 @@ namespace Wiki_Prototype
         {
             if (CurrentTotal < Row)
             {
-                try
+                bool isAdded = false;
+                // Check if the textboxes are empty
+                if (!string.IsNullOrEmpty(textBox_Name.Text) && !string.IsNullOrEmpty(textBox_Category.Text) && !string.IsNullOrEmpty(textBox_Struct.Text) && !string.IsNullOrEmpty(textBox_Definition.Text))
                 {
-                    // Check if the textboxes are empty
-                    if (!string.IsNullOrEmpty(textBox_Name.Text) && !string.IsNullOrEmpty(textBox_Category.Text) && !string.IsNullOrEmpty(textBox_Struct.Text) && !string.IsNullOrEmpty(textBox_Definition.Text))
-                    {
-                        // we know the current total and positions oavailiable and we also know we can't go past 12. 
-                        GlobalArray[CurrentTotal, 0] = textBox_Name.Text;
-                        GlobalArray[CurrentTotal, 1] = textBox_Category.Text;
-                        GlobalArray[CurrentTotal, 2] = textBox_Struct.Text;
-                        GlobalArray[CurrentTotal, 3] = textBox_Definition.Text;
-                        toolStripStatusLabel1.Text = "Item succesfully added to list ar index: " + CurrentTotal;
-                        CurrentTotal++;
-                    }
-                    else
-                    {
-                        toolStripStatusLabel1.Text = "Item could not be added, missing criteria: Textboxes cannot be null or empty.";
-                    }
+                    // we know the current total and positions oavailiable and we also know we can't go past 12. 
+                    GlobalArray[CurrentTotal, 0] = textBox_Name.Text;
+                    GlobalArray[CurrentTotal, 1] = textBox_Category.Text;
+                    GlobalArray[CurrentTotal, 2] = textBox_Struct.Text;
+                    GlobalArray[CurrentTotal, 3] = textBox_Definition.Text;
+                    isAdded = true;
+                    CurrentTotal++;
                 }
-
-                catch (Exception ex)
+                // Criteria met and added
+                if (isAdded)
                 {
-                    toolStripStatusLabel1.Text = ex.Message;
+                    InitializeListView(listView_Array);
+                    button_Reset_Click(sender, e);
+                    toolStripStatusLabel1.Text = "Item succesfully added to list ar index: " + CurrentTotal;
                 }
-                InitializeListView(listView_Array);
-                button_Reset_Click(sender, e);
+                // Criteria not met
+                else
+                {
+                    toolStripStatusLabel1.Text = "Item could not be added, missing criteria: Textboxes cannot be null or empty.";
+                }
             }
-
+            // Max limit reached
             else
             {
                 toolStripStatusLabel1.Text = "Cannot add new item. Limit of  " + Row + " reached.";
@@ -151,7 +150,7 @@ namespace Wiki_Prototype
             }
             else
             {
-                toolStripStatusLabel1.Text = "Cannot delete item, no item selected abd no data availiable.";
+                toolStripStatusLabel1.Text = "Cannot delete item, no item selected and no data availiable.";
             }
         }
 
@@ -183,6 +182,7 @@ namespace Wiki_Prototype
 
         private void button_Reset_Click(object sender, EventArgs e)
         {
+            // Clear all textboxes below and focus on name
             textBox_Name.Text = string.Empty;
             textBox_Category.Text = string.Empty;
             textBox_Struct.Text = string.Empty;
@@ -233,7 +233,8 @@ namespace Wiki_Prototype
                         // Find Mid
                         int mid = left + (right - left) / 2;
                         string midselection = GlobalArray[mid, 0]; // get name of the indexed data point
-                        if (midselection == search) // Found - successfull
+                        // Found - successfull
+                        if (midselection == search) 
                         {
                             foundIndex = mid;
                             break;
@@ -268,7 +269,6 @@ namespace Wiki_Prototype
                     toolStripStatusLabel1.Text = "Search item not found.";
                 }
             }
-
             // Can't search with empty text box
             else
             {
