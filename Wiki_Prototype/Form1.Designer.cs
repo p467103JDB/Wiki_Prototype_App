@@ -204,12 +204,12 @@
             // columnName
             // 
             this.columnName.Text = "Name";
-            this.columnName.Width = 160;
+            this.columnName.Width = 140;
             // 
             // columnCategory
             // 
             this.columnCategory.Text = "Category";
-            this.columnCategory.Width = 160;
+            this.columnCategory.Width = 140;
             // 
             // columnStructure
             // 

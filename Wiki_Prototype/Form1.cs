@@ -12,31 +12,21 @@ namespace Wiki_Prototype
 {
     public partial class Form1 : Form
     {
+        // P467103 - JACK DU BOULAY
+        // WIKI APP PROGRAM
         public Form1()
         {
             InitializeComponent();
-            InitializeGlobalArray(listView_Array);
         }
 
+        // Question 9.1 - Global array + static variables
         // Initialize globals   
         static readonly int Col = 4;                    // AFAIK, capital first letters are used for public global variables - Pascal Case
         static readonly int Row = 12;                   // Also, static is a changeable data type which is good. but readonly makes it similar to a constant and this is supposed to be the maximum amount.
         static int CurrentTotal = 0;                    // this keeps track of the actual number of items in the list
         string[,] GlobalArray = new string[Row, Col];   // GlobalArray is the 2D array
 
-        // This can function as a reset if part 2 of this assignment needs a reset button for the whole array - otherwise it's actually redundant
-        private void InitializeGlobalArray(ListView listView_Array)
-        {
-            for (int i = 0; i < Row; i++)
-            {
-                for (int j = 0; j < Col; j++)
-                {
-                    GlobalArray[i, j] = null; // they're all assigned as string but left unassisnged. it works as seen in the below method.
-                }
-            }
-            textBox_Name.Focus();
-        }
-
+        // Question 9.8 - Display list view
         private void InitializeListView(ListView listView_Array)
         {
             // Why am i doing this? Just to make sure it works.
@@ -54,6 +44,7 @@ namespace Wiki_Prototype
             }
         }
 
+        // Question 9.6 - Bubble sort method
         private void InitialzeBubbleSortMethod()
         {
             try
@@ -64,7 +55,7 @@ namespace Wiki_Prototype
                     do
                     {
                         isSwapped = false; // every loop will set to false if it's false then break out of loop if all is done
-                        for (int j = 0; j < CurrentTotal - 1; j++) // -1 otherwise we out of bounds bruh
+                        for (int j = 0; j < CurrentTotal - 1; j++) // current total -1 otherwise we out of bounds bruh
                         {
                             if (string.Compare(GlobalArray[j, 0], GlobalArray[j + 1, 0]) > 0) // String compare, swap in ascending order - not worried about duplicates just yet, i fully expect them to show up in part 2 though
                             {
@@ -86,6 +77,7 @@ namespace Wiki_Prototype
             }
         }
 
+        // Question 9.2 - Add button
         private void button_Add_Click(object sender, EventArgs e)
         {
             if (CurrentTotal < Row)
@@ -94,7 +86,7 @@ namespace Wiki_Prototype
                 // Check if the textboxes are empty
                 if (!string.IsNullOrEmpty(textBox_Name.Text) && !string.IsNullOrEmpty(textBox_Category.Text) && !string.IsNullOrEmpty(textBox_Struct.Text) && !string.IsNullOrEmpty(textBox_Definition.Text))
                 {
-                    // we know the current total and positions oavailiable and we also know we can't go past 12. 
+                    // we know the current total and positions availiable and we also know we can't go past 12. 
                     GlobalArray[CurrentTotal, 0] = textBox_Name.Text;
                     GlobalArray[CurrentTotal, 1] = textBox_Category.Text;
                     GlobalArray[CurrentTotal, 2] = textBox_Struct.Text;
@@ -122,6 +114,7 @@ namespace Wiki_Prototype
             }
         }
 
+        // Question 9.4 - Delete button
         private void button_Delete_Click(object sender, EventArgs e)
         {
             if (listView_Array.SelectedIndices.Count > 0) // straight forward, if there isnt any items dont delete lol
@@ -154,6 +147,7 @@ namespace Wiki_Prototype
             }
         }
 
+        // Question 9.3 - Edit button
         private void button_Edit_Click(object sender, EventArgs e)
         {
             // Check for criteria text boxes - They should not be empty
@@ -180,6 +174,7 @@ namespace Wiki_Prototype
             }
         }
 
+        // Question 9.5 - Clear button
         private void button_Reset_Click(object sender, EventArgs e)
         {
             // Clear all textboxes below and focus on name
@@ -191,16 +186,18 @@ namespace Wiki_Prototype
             toolStripStatusLabel1.Text = "Text boxes cleared.";
         }
 
+        // Question 9.10 - Save button
         private void button_Save_Click(object sender, EventArgs e)
         {
-
+            /////// TODO ///////
         }
 
+        // Question 9.11 - Load button
         private void button_Load_Click(object sender, EventArgs e)
         {
-
+            /////// TODO ///////
         }
-
+        // Question 9.9 - Display Definition 
         private void listView_Array_Click(object sender, EventArgs e)
         {
             // If user clicks on the left cell
@@ -217,6 +214,7 @@ namespace Wiki_Prototype
             }
         }
 
+        // Question 9.7 - Binary Search button
         private void button_Search_Click(object sender, EventArgs e)
         {
             // perform binary search
