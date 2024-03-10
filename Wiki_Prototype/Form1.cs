@@ -19,6 +19,7 @@ namespace Wiki_Prototype
         public Form1()
         {
             InitializeComponent();
+            toolStripStatusLabel1.Text = "Program opened successfully.";
         }
 
         // Question 9.1 - Global array + static variables
@@ -114,7 +115,7 @@ namespace Wiki_Prototype
                 {
                     InitializeListView(ListView_Array);
                     Button_Reset_Click(sender, e);
-                    toolStripStatusLabel1.Text = "Item succesfully added to list ar index: " + CurrentTotal;
+                    toolStripStatusLabel1.Text = "Item succesfully added to list at index: " + (CurrentTotal - 1);
                 }
                 // Criteria not met
                 else
@@ -181,7 +182,7 @@ namespace Wiki_Prototype
             }
             else if(ListView_Array.SelectedIndices.Count == 0)
             {
-                toolStripStatusLabel1.Text = "Could not edit item as there is no item selected and there isnt one avaliable.";
+                toolStripStatusLabel1.Text = "Could not edit item as there is no item selected.";
             }
             else
             {
@@ -271,7 +272,7 @@ namespace Wiki_Prototype
             // Open file
             if (reader == DialogResult.OK)
             {
-                // CLEAR GLOBAL ARRAY AND LISTVIEW FIRST
+                // CLEAR GLOBAL ARRAY
                 InitializeGlobalArray();
                 BinaryReader bR; // create new instance of binaryReader.
                 try
@@ -323,7 +324,7 @@ namespace Wiki_Prototype
                         break;
                     }
                     InitializeListView(ListView_Array); // Update list with new content :)
-                    toolStripStatusLabel1.Text = "Successfully loaded a file from: " + openFileDialog.FileName;
+                    toolStripStatusLabel1.Text = "Successfully loaded file from: " + openFileDialog.FileName;
                 }
                 bR.Close(); // Close binary reader 
             }
