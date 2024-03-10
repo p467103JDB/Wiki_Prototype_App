@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,6 +27,19 @@ namespace Wiki_Prototype
         static readonly int Row = 12;                   // Also, static is a changeable data type which is good. but readonly makes it similar to a constant and this is supposed to be the maximum amount.
         static int CurrentTotal = 0;                    // this keeps track of the actual number of items in the list
         string[,] GlobalArray = new string[Row, Col];   // GlobalArray is the 2D array
+
+        private void InitializeGlobalArray() // wipes all array data
+        {
+            for (int i = 0; i < Row; i++)
+            {
+
+                for (int j = 0; j < Col; j++)
+                {
+                    GlobalArray[i, j] = "";
+                }
+            }
+            CurrentTotal = 0;
+        }
 
         // Question 9.8 - Display list view
         private void InitializeListView(ListView listView_Array)
@@ -78,7 +93,7 @@ namespace Wiki_Prototype
         }
 
         // Question 9.2 - Add button
-        private void button_Add_Click(object sender, EventArgs e)
+        private void Button_Add_Click(object sender, EventArgs e)
         {
             if (CurrentTotal < Row)
             {
@@ -97,8 +112,8 @@ namespace Wiki_Prototype
                 // Criteria met and added
                 if (isAdded)
                 {
-                    InitializeListView(listView_Array);
-                    button_Reset_Click(sender, e);
+                    InitializeListView(ListView_Array);
+                    Button_Reset_Click(sender, e);
                     toolStripStatusLabel1.Text = "Item succesfully added to list ar index: " + CurrentTotal;
                 }
                 // Criteria not met
@@ -115,11 +130,11 @@ namespace Wiki_Prototype
         }
 
         // Question 9.4 - Delete button
-        private void button_Delete_Click(object sender, EventArgs e)
+        private void Button_Delete_Click(object sender, EventArgs e)
         {
-            if (listView_Array.SelectedIndices.Count > 0) // straight forward, if there isnt any items dont delete lol
+            if (ListView_Array.SelectedIndices.Count > 0) // straight forward, if there isnt any items dont delete lol
             {
-                int selectedIndex = listView_Array.SelectedIndices[0]; // get selected
+                int selectedIndex = ListView_Array.SelectedIndices[0]; // get selected
 
                 // Prompt user first with messagebox before delete
                 DialogResult result = MessageBox.Show("Do you want to delete this item?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -132,8 +147,8 @@ namespace Wiki_Prototype
                         GlobalArray[selectedIndex, i] = null;
                     }
                     CurrentTotal--;
-                    InitializeListView(listView_Array);
-                    button_Reset_Click(sender, e);
+                    InitializeListView(ListView_Array);
+                    Button_Reset_Click(sender, e);
                     toolStripStatusLabel1.Text = "Succesfully deleted item at index: " + selectedIndex;
                 }
                 else
@@ -148,23 +163,23 @@ namespace Wiki_Prototype
         }
 
         // Question 9.3 - Edit button
-        private void button_Edit_Click(object sender, EventArgs e)
+        private void Button_Edit_Click(object sender, EventArgs e)
         {
             // Check for criteria text boxes - They should not be empty
-            if (listView_Array.SelectedIndices.Count > 0 && !string.IsNullOrEmpty(textBox_Name.Text) && !string.IsNullOrEmpty(textBox_Category.Text) && !string.IsNullOrEmpty(textBox_Struct.Text) && !string.IsNullOrEmpty(textBox_Definition.Text))
+            if (ListView_Array.SelectedIndices.Count > 0 && !string.IsNullOrEmpty(textBox_Name.Text) && !string.IsNullOrEmpty(textBox_Category.Text) && !string.IsNullOrEmpty(textBox_Struct.Text) && !string.IsNullOrEmpty(textBox_Definition.Text))
             {
-                int selectedIndex = listView_Array.SelectedIndices[0];  // there can only be one as multiselect isnt enabled
+                int selectedIndex = ListView_Array.SelectedIndices[0];  // there can only be one as multiselect isnt enabled
                 GlobalArray[selectedIndex, 0] = textBox_Name.Text;      // set text in array to the textbox text
                 GlobalArray[selectedIndex, 1] = textBox_Category.Text;  
                 GlobalArray[selectedIndex, 2] = textBox_Struct.Text;
                 GlobalArray[selectedIndex, 3] = textBox_Definition.Text;
 
                 // run through methods to update list and then clear boxes once done
-                InitializeListView(listView_Array);
-                button_Reset_Click(sender, e);
+                InitializeListView(ListView_Array);
+                Button_Reset_Click(sender, e);
                 toolStripStatusLabel1.Text = "Succesfully edited item at index: " + selectedIndex;
             }
-            else if(listView_Array.SelectedIndices.Count == 0)
+            else if(ListView_Array.SelectedIndices.Count == 0)
             {
                 toolStripStatusLabel1.Text = "Could not edit item as there is no item selected and there isnt one avaliable.";
             }
@@ -175,7 +190,7 @@ namespace Wiki_Prototype
         }
 
         // Question 9.5 - Clear button
-        private void button_Reset_Click(object sender, EventArgs e)
+        private void Button_Reset_Click(object sender, EventArgs e)
         {
             // Clear all textboxes below and focus on name
             textBox_Name.Text = string.Empty;
@@ -187,23 +202,143 @@ namespace Wiki_Prototype
         }
 
         // Question 9.10 - Save button
-        private void button_Save_Click(object sender, EventArgs e)
+        private void Button_Save_Click(object sender, EventArgs e)
         {
-            /////// TODO ///////
+            // The example was helpful enough in learning content session 4 file i/o.
+            // https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.savefiledialog?view=windowsdesktop-7.0#examples // But heres what i actually needed to know.
+            SaveFileDialog saveFileDialog = new SaveFileDialog();                   // Create a new instance of SaveFileDialog
+
+            saveFileDialog.InitialDirectory = Application.StartupPath;              // Default directory is the wiki_prototype/bin/debug
+            saveFileDialog.FileName = "definitions";                                // Set the default filename - not hard coded, it can be changed by the user in the dialog window
+            saveFileDialog.DefaultExt = ".dat";                                     // Extention will be set to .dat
+            saveFileDialog.Filter = "DAT files (*.dat)|*.dat|All files (*.*)|*.*";  // Make a filter to show only .dat files
+            // TODO - Make a default directory to save to and load from. 
+
+            // Show the SaveFileDialog and get the result
+            DialogResult writer = saveFileDialog.ShowDialog();
+            if (writer == DialogResult.OK)
+            {
+                BinaryWriter bW;
+                try
+                {
+                    bW = new BinaryWriter(new FileStream(saveFileDialog.FileName, FileMode.Create)); // Bruh, it can't be append. make new one every time
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message + "\nCannot append to file.");
+                    return;
+                }
+
+                // Write to file
+                try
+                {
+                    for (int i = 0; i < CurrentTotal; i++)
+                    {
+                        bW.Write(GlobalArray[i, 0]); // binary writer actual works diferently than filestream, this does not need to change.
+
+                        for (int j = 1; j < Col; j++)
+                        {
+                                bW.Write(GlobalArray[i, j]); // each string is automatically split. It doesn't matter to add commas or breaks
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message + "\nCannot write data to file.");
+                    return;
+                }
+                bW.Close();
+                toolStripStatusLabel1.Text = "Succesfully saved data to: " + saveFileDialog.FileName;
+            }
+            else
+            {
+                toolStripStatusLabel1.Text = "User chose NOT to save file.";
+            }
         }
 
         // Question 9.11 - Load button
-        private void button_Load_Click(object sender, EventArgs e)
+        private void Button_Load_Click(object sender, EventArgs e)
         {
-            /////// TODO ///////
+            // Create an OpenFileDialog instance
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.InitialDirectory = Application.StartupPath;
+            openFileDialog.DefaultExt = ".dat";
+            openFileDialog.Filter = "DAT files (*.dat)|*.dat|All files (*.*)|*.*";
+            // Show the OpenFileDialog and get the result
+            DialogResult reader = openFileDialog.ShowDialog();
+
+            // Open file
+            if (reader == DialogResult.OK)
+            {
+                // CLEAR GLOBAL ARRAY AND LISTVIEW FIRST
+                InitializeGlobalArray();
+                BinaryReader bR; // create new instance of binaryReader.
+                try
+                {
+                    bR = new BinaryReader(new FileStream(openFileDialog.FileName, FileMode.Open));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message + "\nCannot open file for reading");
+                    return;
+                }
+
+                while (bR.BaseStream.Position != bR.BaseStream.Length)
+                {
+                    try
+                    {
+                        for (int i = 0; i < Row; i++)
+                        {
+                            if (bR.BaseStream.Position == bR.BaseStream.Length) // HAH! fixed the problem of reading an empty non existant string.
+                            {
+                                break;
+                            }
+
+                            string tempS1 = bR.ReadString();    // THIS FIXED SO MUCH you have no idea. what a mess
+                            if (!string.IsNullOrEmpty(tempS1))  // super important to not use br.String() unless it's in a temp var - has a limit of 1 use
+                            {
+                                GlobalArray[i, 0] = tempS1;
+
+                                for (int j = 1; j < Col; j++)
+                                {
+                                    string tempS2 = bR.ReadString(); 
+
+                                    if (!string.IsNullOrEmpty(tempS2))
+                                    {
+                                        GlobalArray[i, j] = tempS2; 
+                                    }
+                                    else
+                                    {
+                                        break; // Break the inner loop if no more data to read
+                                    }
+                                }
+                                CurrentTotal++; // new item has been added
+                            }
+                        }
+                    }
+                    catch (Exception fe)
+                    {
+                        MessageBox.Show(fe.Message + "\nCannot read data from file or EOF");
+                        break;
+                    }
+                    InitializeListView(ListView_Array); // Update list with new content :)
+                    toolStripStatusLabel1.Text = "Successfully loaded a file from: " + openFileDialog.FileName;
+                }
+                bR.Close(); // Close binary reader 
+            }
+            else
+            {
+                toolStripStatusLabel1.Text = "User chose not to load a file.";
+            }
         }
         // Question 9.9 - Display Definition 
-        private void listView_Array_Click(object sender, EventArgs e)
+        private void ListView_Array_Click(object sender, EventArgs e)
         {
             // If user clicks on the left cell
-            if (listView_Array.SelectedIndices.Count > 0)
+            if (ListView_Array.SelectedIndices.Count > 0)
             {
-                int selectedIndex = listView_Array.SelectedIndices[0];
+                int selectedIndex = ListView_Array.SelectedIndices[0];
 
                 // Present the array data for that index
                 textBox_Name.Text = GlobalArray[selectedIndex, 0];
@@ -215,7 +350,7 @@ namespace Wiki_Prototype
         }
 
         // Question 9.7 - Binary Search button
-        private void button_Search_Click(object sender, EventArgs e)
+        private void Button_Search_Click(object sender, EventArgs e)
         {
             // perform binary search
             string search = textBox_Search.Text;
@@ -232,21 +367,21 @@ namespace Wiki_Prototype
                         int mid = left + (right - left) / 2;
                         string midselection = GlobalArray[mid, 0]; // get name of the indexed data point
                         // Found - successfull
-                        if (midselection == search) 
+                        if (string.Compare(midselection, search, StringComparison.OrdinalIgnoreCase) == 0)
                         {
                             foundIndex = mid;
                             break;
                         }
 
                         // Going Left
-                        else if (string.Compare(midselection, search, StringComparison.OrdinalIgnoreCase) > 0)
+                        else if (string.Compare(midselection, search, StringComparison.OrdinalIgnoreCase) > 0) 
                         {
                             // Adjusting the right bound
                             right = mid - 1;
                         }
 
                         // Going Right
-                        else
+                        else if (string.Compare(midselection, search, StringComparison.OrdinalIgnoreCase) < 0)
                         {
                             // Adjusting the left bound
                             left = mid + 1;
