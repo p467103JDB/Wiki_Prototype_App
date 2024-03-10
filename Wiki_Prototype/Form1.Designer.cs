@@ -192,8 +192,11 @@
             this.columnStructure,
             this.columnDefinition});
             this.ListView_Array.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ListView_Array.FullRowSelect = true;
+            this.ListView_Array.GridLines = true;
             this.ListView_Array.HideSelection = false;
             this.ListView_Array.Location = new System.Drawing.Point(55, 192);
+            this.ListView_Array.MultiSelect = false;
             this.ListView_Array.Name = "ListView_Array";
             this.ListView_Array.Size = new System.Drawing.Size(450, 475);
             this.ListView_Array.TabIndex = 14;

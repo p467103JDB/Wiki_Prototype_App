@@ -73,6 +73,8 @@ namespace Wiki_Prototype
                         isSwapped = false; // every loop will set to false if it's false then break out of loop if all is done
                         for (int j = 0; j < CurrentTotal - 1; j++) // current total -1 otherwise we out of bounds bruh
                         {
+
+
                             if (string.Compare(GlobalArray[j, 0], GlobalArray[j + 1, 0]) > 0) // String compare, swap in ascending order - not worried about duplicates just yet, i fully expect them to show up in part 2 though
                             {
                                 // using the swapsie tuple decontructor again coz it's cooler than using a new dummy temp var :^) 
@@ -143,10 +145,14 @@ namespace Wiki_Prototype
                 // Check the user's choice
                 if (result == DialogResult.Yes)
                 {
-                    for (int i = 0; i < Col; i++)
+                    // UHHHH SIGH, im sure theres an easier way, this will basically swap the empty array index with the one at the end. this ensures that there arent empty cells of data in the array at the front.
+                    for (int i = 0; i < Col; i++) // wipe the final index 
                     {
-                        GlobalArray[selectedIndex, i] = null;
+                        (GlobalArray[selectedIndex, i], GlobalArray[CurrentTotal - 1, i]) = (GlobalArray[CurrentTotal - 1, i], GlobalArray[selectedIndex, i]);
+                        GlobalArray[CurrentTotal - 1, i] = "";
                     }
+
+
                     CurrentTotal--;
                     InitializeListView(ListView_Array);
                     Button_Reset_Click(sender, e);
@@ -207,12 +213,13 @@ namespace Wiki_Prototype
         {
             // The example was helpful enough in learning content session 4 file i/o.
             // https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.savefiledialog?view=windowsdesktop-7.0#examples // But heres what i actually needed to know.
-            SaveFileDialog saveFileDialog = new SaveFileDialog();                   // Create a new instance of SaveFileDialog
-
-            saveFileDialog.InitialDirectory = Application.StartupPath;              // Default directory is the wiki_prototype/bin/debug
-            saveFileDialog.FileName = "definitions";                                // Set the default filename - not hard coded, it can be changed by the user in the dialog window
-            saveFileDialog.DefaultExt = ".dat";                                     // Extention will be set to .dat
-            saveFileDialog.Filter = "DAT files (*.dat)|*.dat|All files (*.*)|*.*";  // Make a filter to show only .dat files
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                InitialDirectory = Application.StartupPath,             // Default directory is the wiki_prototype/bin/debug
+                FileName = "definitions",                               // Set the default filename - not hard coded, it can be changed by the user in the dialog window
+                DefaultExt = ".dat",                                    // Extention will be set to .dat
+                Filter = "DAT files (*.dat)|*.dat|All files (*.*)|*.*"  // Make a filter to show only .dat files
+            };                   // Create a new instance of SaveFileDialog
             // TODO - Make a default directory to save to and load from. 
 
             // Show the SaveFileDialog and get the result
@@ -261,11 +268,12 @@ namespace Wiki_Prototype
         private void Button_Load_Click(object sender, EventArgs e)
         {
             // Create an OpenFileDialog instance
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            openFileDialog.InitialDirectory = Application.StartupPath;
-            openFileDialog.DefaultExt = ".dat";
-            openFileDialog.Filter = "DAT files (*.dat)|*.dat|All files (*.*)|*.*";
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = Application.StartupPath,
+                DefaultExt = ".dat",
+                Filter = "DAT files (*.dat)|*.dat|All files (*.*)|*.*"
+            };
             // Show the OpenFileDialog and get the result
             DialogResult reader = openFileDialog.ShowDialog();
 
