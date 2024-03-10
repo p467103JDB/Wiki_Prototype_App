@@ -145,13 +145,12 @@ namespace Wiki_Prototype
                 // Check the user's choice
                 if (result == DialogResult.Yes)
                 {
-                    // UHHHH SIGH, im sure theres an easier way, this will basically swap the empty array index with the one at the end. this ensures that there arent empty cells of data in the array at the front.
+                    // UHHHH SIGH, im sure theres an easier way, this will basically swap the selected array index with the one at the end. this ensures that there arent empty cells of data in the array at the front.
                     for (int i = 0; i < Col; i++) // wipe the final index 
                     {
                         (GlobalArray[selectedIndex, i], GlobalArray[CurrentTotal - 1, i]) = (GlobalArray[CurrentTotal - 1, i], GlobalArray[selectedIndex, i]);
                         GlobalArray[CurrentTotal - 1, i] = "";
                     }
-
 
                     CurrentTotal--;
                     InitializeListView(ListView_Array);
