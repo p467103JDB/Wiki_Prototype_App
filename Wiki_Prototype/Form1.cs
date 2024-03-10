@@ -127,7 +127,7 @@ namespace Wiki_Prototype
             // Max limit reached
             else
             {
-                toolStripStatusLabel1.Text = "Cannot add new item. Limit of  " + Row + " reached.";
+                toolStripStatusLabel1.Text = "Cannot add new item. Limit of " + Row + " reached.";
             }
         }
 
