@@ -74,8 +74,7 @@ namespace Wiki_Prototype
                         for (int j = 0; j < CurrentTotal - 1; j++) // current total -1 otherwise we out of bounds bruh
                         {
 
-
-                            if (string.Compare(GlobalArray[j, 0], GlobalArray[j + 1, 0]) > 0) // String compare, swap in ascending order - not worried about duplicates just yet, i fully expect them to show up in part 2 though
+                            if (string.Compare(GlobalArray[j, 0], GlobalArray[j + 1, 0]) > 0 ) // String compare, swap in ascending order - not worried about duplicates just yet, i fully expect them to show up in part 2 though
                             {
                                 // using the swapsie tuple decontructor again coz it's cooler than using a new dummy temp var :^) 
                                 (GlobalArray[j, 0], GlobalArray[j + 1, 0]) = (GlobalArray[j + 1, 0], GlobalArray[j, 0]);    // Swap name
@@ -148,7 +147,7 @@ namespace Wiki_Prototype
                     // UHHHH SIGH, im sure theres an easier way, this will basically swap the selected array index with the one at the end. this ensures that there arent empty cells of data in the array at the front.
                     for (int i = 0; i < Col; i++) // wipe the final index 
                     {
-                        (GlobalArray[selectedIndex, i], GlobalArray[CurrentTotal - 1, i]) = (GlobalArray[CurrentTotal - 1, i], GlobalArray[selectedIndex, i]);
+                        (GlobalArray[selectedIndex, i], GlobalArray[CurrentTotal - 1, i]) = (GlobalArray[CurrentTotal - 1, i], GlobalArray[selectedIndex, i]);  // this is probably one hell of a scuffed fix if you understand whats happening - if i had time i'd do it better.
                         GlobalArray[CurrentTotal - 1, i] = "";
                     }
 
