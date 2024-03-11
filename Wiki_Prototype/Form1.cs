@@ -392,6 +392,8 @@ namespace Wiki_Prototype
                         if (string.Compare(midselection, search, StringComparison.OrdinalIgnoreCase) == 0)
                         {
                             foundIndex = mid;
+                            ListView_Array.Items[foundIndex].Selected = true;
+                            ListView_Array_Click(sender, e);
                             break;
                         }
 
