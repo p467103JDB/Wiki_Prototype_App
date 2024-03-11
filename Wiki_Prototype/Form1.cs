@@ -19,6 +19,8 @@ namespace Wiki_Prototype
         public Form1()
         {
             InitializeComponent();
+            InitializeGlobalArray();
+            InitializeListView(ListView_Array);
             toolStripStatusLabel1.Text = "Program opened successfully.";
         }
 
@@ -36,7 +38,7 @@ namespace Wiki_Prototype
 
                 for (int j = 0; j < Col; j++)
                 {
-                    GlobalArray[i, j] = "";
+                    GlobalArray[i, j] = null;
                 }
             }
             CurrentTotal = 0;
@@ -48,8 +50,16 @@ namespace Wiki_Prototype
             // Why am i doing this? Just to make sure it works.
             listView_Array.Items.Clear();
             //start array sorting method first. then add...
+            for (int i = CurrentTotal; i < Row; i++) // add tild squiggles 
+            {
+                for (int j = 0; j < Col; j++)
+                {
+                    GlobalArray[i, j] = "~";
+                }
+            }
             InitialzeBubbleSortMethod();
-            for (int i = 0; i < CurrentTotal; i++)
+
+            for (int i = 0; i < Row; i++)
             {
                 ListViewItem check_item = listView_Array.Items.Add(GlobalArray[i, 0]);
                 for (int j = 1; j < Col; j++)   //j has to be 1 because i'd be adding the name again.... XD my bad 
@@ -74,9 +84,9 @@ namespace Wiki_Prototype
                         for (int j = 0; j < CurrentTotal - 1; j++) // current total -1 otherwise we out of bounds bruh
                         {
 
-                            if (string.Compare(GlobalArray[j, 0], GlobalArray[j + 1, 0]) > 0 ) // String compare, swap in ascending order - not worried about duplicates just yet, i fully expect them to show up in part 2 though
+                            if (string.CompareOrdinal(GlobalArray[j, 0], GlobalArray[j + 1, 0]) > 0 ) // String compare, swap in ascending order - not worried about duplicates just yet, i fully expect them to show up in part 2 though
                             {
-                                // using the swapsie tuple decontructor again coz it's cooler than using a new dummy temp var :^) 
+                                // using the swapsie tuple decontructor again coz it's cooler than using a new dummy temp var :^)  - this could be shorter***
                                 (GlobalArray[j, 0], GlobalArray[j + 1, 0]) = (GlobalArray[j + 1, 0], GlobalArray[j, 0]);    // Swap name
                                 (GlobalArray[j, 1], GlobalArray[j + 1, 1]) = (GlobalArray[j + 1, 1], GlobalArray[j, 1]);    // Swap category
                                 (GlobalArray[j, 2], GlobalArray[j + 1, 2]) = (GlobalArray[j + 1, 2], GlobalArray[j, 2]);    // Swap structure
@@ -104,7 +114,7 @@ namespace Wiki_Prototype
                 if (!string.IsNullOrEmpty(textBox_Name.Text) && !string.IsNullOrEmpty(textBox_Category.Text) && !string.IsNullOrEmpty(textBox_Struct.Text) && !string.IsNullOrEmpty(textBox_Definition.Text))
                 {
                     // we know the current total and positions availiable and we also know we can't go past 12. 
-                    GlobalArray[CurrentTotal, 0] = textBox_Name.Text;
+                    GlobalArray[CurrentTotal, 0] = textBox_Name.Text.ToUpper(); // <-- TEST REPORT
                     GlobalArray[CurrentTotal, 1] = textBox_Category.Text;
                     GlobalArray[CurrentTotal, 2] = textBox_Struct.Text;
                     GlobalArray[CurrentTotal, 3] = textBox_Definition.Text;
@@ -137,23 +147,29 @@ namespace Wiki_Prototype
             if (ListView_Array.SelectedIndices.Count > 0) // straight forward, if there isnt any items dont delete lol
             {
                 int selectedIndex = ListView_Array.SelectedIndices[0]; // get selected
+                string s = GlobalArray[selectedIndex, 0]; // THIS IS SO SCUFFED ***
+                string t = "~";
 
                 // Prompt user first with messagebox before delete
                 DialogResult result = MessageBox.Show("Do you want to delete this item?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 // Check the user's choice
-                if (result == DialogResult.Yes)
+                if(s == t)
+                {
+                    toolStripStatusLabel1.Text = "Cannot remove empty cell.";
+                }
+
+                else if (result == DialogResult.Yes)
                 {
                     // UHHHH SIGH, im sure theres an easier way, this will basically swap the selected array index with the one at the end. this ensures that there arent empty cells of data in the array at the front.
                     for (int i = 0; i < Col; i++) // wipe the final index 
                     {
-                        (GlobalArray[selectedIndex, i], GlobalArray[CurrentTotal - 1, i]) = (GlobalArray[CurrentTotal - 1, i], GlobalArray[selectedIndex, i]);  // this is probably one hell of a scuffed fix if you understand whats happening - if i had time i'd do it better***.
-                        GlobalArray[CurrentTotal - 1, i] = "";
+                        GlobalArray[selectedIndex, i] = "~";
                     }
-
-                    CurrentTotal--;
+                   
                     InitializeListView(ListView_Array);
                     Button_Reset_Click(sender, e);
+                    CurrentTotal--;
                     toolStripStatusLabel1.Text = "Succesfully deleted item at index: " + selectedIndex;
                 }
                 else
@@ -218,7 +234,6 @@ namespace Wiki_Prototype
                 DefaultExt = ".dat",                                    // Extention will be set to .dat
                 Filter = "DAT files (*.dat)|*.dat|All files (*.*)|*.*"  // Make a filter to show only .dat files
             };                   // Create a new instance of SaveFileDialog
-            // TODO - Make a default directory to save to and load from. 
 
             // Show the SaveFileDialog and get the result
             DialogResult writer = saveFileDialog.ShowDialog();
@@ -305,7 +320,7 @@ namespace Wiki_Prototype
                             string tempS1 = bR.ReadString();    // THIS FIXED SO MUCH you have no idea. what a mess
                             if (!string.IsNullOrEmpty(tempS1))  // super important to not use br.String() unless it's in a temp var - has a limit of 1 use
                             {
-                                GlobalArray[i, 0] = tempS1;
+                                GlobalArray[i, 0] = tempS1.ToUpper(); // <-- TEST REPORT
 
                                 for (int j = 1; j < Col; j++)
                                 {
