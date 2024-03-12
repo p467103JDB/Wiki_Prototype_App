@@ -113,7 +113,7 @@ namespace Wiki_Prototype
                 if (!string.IsNullOrEmpty(textBox_Name.Text) && !string.IsNullOrEmpty(textBox_Category.Text) && !string.IsNullOrEmpty(textBox_Struct.Text) && !string.IsNullOrEmpty(textBox_Definition.Text))
                 {
                     // we know the current total and positions availiable and we also know we can't go past 12. 
-                    GlobalArray[CurrentTotal, 0] = textBox_Name.Text.ToUpper(); // <-- TEST REPORT
+                    GlobalArray[CurrentTotal, 0] = textBox_Name.Text.ToUpper(); // <-- TEST REPORT***  - Fixed an issue where lowercase went below uppercase
                     GlobalArray[CurrentTotal, 1] = textBox_Category.Text;
                     GlobalArray[CurrentTotal, 2] = textBox_Struct.Text;
                     GlobalArray[CurrentTotal, 3] = textBox_Definition.Text;
