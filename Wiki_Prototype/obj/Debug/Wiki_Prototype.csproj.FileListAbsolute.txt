@@ -18,3 +18,13 @@ C:\Users\p467103\Downloads\Wiki_Prototype_App-new_version-0.05\Wiki_Prototype_Ap
 C:\Users\p467103\Downloads\Wiki_Prototype_App-new_version-0.05\Wiki_Prototype_App-new_version-0.04\Wiki_Prototype\obj\Debug\Wiki_Prototype.csproj.CoreCompileInputs.cache
 C:\Users\p467103\Downloads\Wiki_Prototype_App-new_version-0.05\Wiki_Prototype_App-new_version-0.04\Wiki_Prototype\obj\Debug\Wiki_Prototype.exe
 C:\Users\p467103\Downloads\Wiki_Prototype_App-new_version-0.05\Wiki_Prototype_App-new_version-0.04\Wiki_Prototype\obj\Debug\Wiki_Prototype.pdb
+D:\GitHub Clones\Wiki_Prototype_App\Wiki_Prototype\bin\Debug\Wiki_Prototype.exe.config
+D:\GitHub Clones\Wiki_Prototype_App\Wiki_Prototype\bin\Debug\Wiki_Prototype.exe
+D:\GitHub Clones\Wiki_Prototype_App\Wiki_Prototype\bin\Debug\Wiki_Prototype.pdb
+D:\GitHub Clones\Wiki_Prototype_App\Wiki_Prototype\obj\Debug\Wiki_Prototype.csproj.AssemblyReference.cache
+D:\GitHub Clones\Wiki_Prototype_App\Wiki_Prototype\obj\Debug\Wiki_Prototype.Form1.resources
+D:\GitHub Clones\Wiki_Prototype_App\Wiki_Prototype\obj\Debug\Wiki_Prototype.Properties.Resources.resources
+D:\GitHub Clones\Wiki_Prototype_App\Wiki_Prototype\obj\Debug\Wiki_Prototype.csproj.GenerateResource.cache
+D:\GitHub Clones\Wiki_Prototype_App\Wiki_Prototype\obj\Debug\Wiki_Prototype.csproj.CoreCompileInputs.cache
+D:\GitHub Clones\Wiki_Prototype_App\Wiki_Prototype\obj\Debug\Wiki_Prototype.exe
+D:\GitHub Clones\Wiki_Prototype_App\Wiki_Prototype\obj\Debug\Wiki_Prototype.pdb

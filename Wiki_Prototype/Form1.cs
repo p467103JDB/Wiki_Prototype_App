@@ -19,7 +19,6 @@ namespace Wiki_Prototype
         public Form1()
         {
             InitializeComponent();
-            InitializeGlobalArray();
             InitializeListView(ListView_Array);
             toolStripStatusLabel1.Text = "Program opened successfully.";
         }
@@ -84,13 +83,13 @@ namespace Wiki_Prototype
                         for (int j = 0; j < CurrentTotal - 1; j++) // current total -1 otherwise we out of bounds bruh
                         {
 
-                            if (string.CompareOrdinal(GlobalArray[j, 0], GlobalArray[j + 1, 0]) > 0 ) // String compare, swap in ascending order - not worried about duplicates just yet, i fully expect them to show up in part 2 though
+                            if (string.CompareOrdinal(GlobalArray[j, 0], GlobalArray[j + 1, 0]) > 0 ) // Cheers Stewart! CompareOrdinal is a much better way of doing string comparisons in this assessment.
                             {
                                 // using the swapsie tuple decontructor again coz it's cooler than using a new dummy temp var :^)  - this could be shorter***
-                                (GlobalArray[j, 0], GlobalArray[j + 1, 0]) = (GlobalArray[j + 1, 0], GlobalArray[j, 0]);    // Swap name
-                                (GlobalArray[j, 1], GlobalArray[j + 1, 1]) = (GlobalArray[j + 1, 1], GlobalArray[j, 1]);    // Swap category
-                                (GlobalArray[j, 2], GlobalArray[j + 1, 2]) = (GlobalArray[j + 1, 2], GlobalArray[j, 2]);    // Swap structure
-                                (GlobalArray[j, 3], GlobalArray[j + 1, 3]) = (GlobalArray[j + 1, 3], GlobalArray[j, 3]);    // Swap Definition
+                                for (int k = 0; k < Col; k++) // this will swap name cat struct and definition
+                                {
+                                    (GlobalArray[j, k], GlobalArray[j + 1, k]) = (GlobalArray[j + 1, k], GlobalArray[j, k]);
+                                }
                                 isSwapped = true;
                             }
                         }
