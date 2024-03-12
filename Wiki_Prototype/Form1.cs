@@ -46,16 +46,17 @@ namespace Wiki_Prototype
         // Question 9.8 - Display list view
         private void InitializeListView(ListView listView_Array)
         {
-            // Why am i doing this? Just to make sure it works.
             listView_Array.Items.Clear();
+
             //start array sorting method first. then add...
-            for (int i = CurrentTotal; i < Row; i++) // add tild squiggles 
+            for (int i = CurrentTotal; i < Row; i++) // add tild squiggles - should start from 0 - so we should only see tilds in the cells
             {
                 for (int j = 0; j < Col; j++)
                 {
                     GlobalArray[i, j] = "~";
                 }
             }
+
             InitialzeBubbleSortMethod();
 
             for (int i = 0; i < Row; i++)
@@ -224,15 +225,15 @@ namespace Wiki_Prototype
         // Question 9.10 - Save button
         private void Button_Save_Click(object sender, EventArgs e)
         {
-            // The example was helpful enough in learning content session 4 file i/o.
+            // The example stew provided was helpful enough in learning content session 4 file i/o.
             // https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.savefiledialog?view=windowsdesktop-7.0#examples // But heres what i actually needed to know.
-            SaveFileDialog saveFileDialog = new SaveFileDialog
+            SaveFileDialog saveFileDialog = new SaveFileDialog          // Create a new instance of SaveFileDialog - found out this could be simplified 
             {
                 InitialDirectory = Application.StartupPath,             // Default directory is the wiki_prototype/bin/debug
                 FileName = "definitions",                               // Set the default filename - not hard coded, it can be changed by the user in the dialog window
                 DefaultExt = ".dat",                                    // Extention will be set to .dat
                 Filter = "DAT files (*.dat)|*.dat|All files (*.*)|*.*"  // Make a filter to show only .dat files
-            };                   // Create a new instance of SaveFileDialog
+            };                                                         
 
             // Show the SaveFileDialog and get the result
             DialogResult writer = saveFileDialog.ShowDialog();
@@ -241,7 +242,7 @@ namespace Wiki_Prototype
                 BinaryWriter bW;
                 try
                 {
-                    bW = new BinaryWriter(new FileStream(saveFileDialog.FileName, FileMode.Create)); // Bruh, it can't be append. make new one every time
+                    bW = new BinaryWriter(new FileStream(saveFileDialog.FileName, FileMode.Create)); // Bruh, it can't be appended. make new one every time
                 }
                 catch (Exception ex)
                 {
@@ -254,9 +255,7 @@ namespace Wiki_Prototype
                 {
                     for (int i = 0; i < CurrentTotal; i++)
                     {
-                        bW.Write(GlobalArray[i, 0]); // binary writer actual works diferently than filestream, this does not need to change.
-
-                        for (int j = 1; j < Col; j++)
+                        for (int j = 0; j < Col; j++)
                         {
                                 bW.Write(GlobalArray[i, j]); // each string is automatically split. It doesn't matter to add commas or breaks
                         }
@@ -279,7 +278,7 @@ namespace Wiki_Prototype
         // Question 9.11 - Load button
         private void Button_Load_Click(object sender, EventArgs e)
         {
-            // Create an OpenFileDialog instance
+            // Create an OpenFileDialog instance - Can be simplified like so
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 InitialDirectory = Application.StartupPath,
@@ -302,7 +301,7 @@ namespace Wiki_Prototype
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message + "\nCannot open file for reading");
-                    return;
+                    return; // return and finish method
                 }
 
                 while (bR.BaseStream.Position != bR.BaseStream.Length)
@@ -337,14 +336,14 @@ namespace Wiki_Prototype
                                 CurrentTotal++; // new item has been added
                             }
                         }
+                        InitializeListView(ListView_Array); // Update list with new content :)
+                        toolStripStatusLabel1.Text = "Successfully loaded file from: " + openFileDialog.FileName;
                     }
                     catch (Exception fe)
                     {
                         MessageBox.Show(fe.Message + "\nCannot read data from file or EOF");
                         break;
                     }
-                    InitializeListView(ListView_Array); // Update list with new content :)
-                    toolStripStatusLabel1.Text = "Successfully loaded file from: " + openFileDialog.FileName;
                 }
                 bR.Close(); // Close binary reader 
             }
@@ -360,7 +359,6 @@ namespace Wiki_Prototype
             if (ListView_Array.SelectedIndices.Count > 0)
             {
                 int selectedIndex = ListView_Array.SelectedIndices[0];
-
                 // Present the array data for that index
                 textBox_Name.Text = GlobalArray[selectedIndex, 0];
                 textBox_Category.Text = GlobalArray[selectedIndex, 1];
