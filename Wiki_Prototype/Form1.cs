@@ -10,12 +10,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+// JACK DU BOULAY
+// P467103
+// 13/03/2024
+// WIKI APP PROGRAM
+// Cluster - C Sharp Two - Assessmnet 1 
+
 namespace Wiki_Prototype
 {
     public partial class Form1 : Form
     {
-        // P467103 - JACK DU BOULAY
-        // WIKI APP PROGRAM
         public Form1()
         {
             InitializeComponent();
