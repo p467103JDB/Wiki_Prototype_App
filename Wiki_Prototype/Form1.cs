@@ -319,27 +319,15 @@ namespace Wiki_Prototype
                                 break;
                             }
 
-                            string tempS1 = bR.ReadString();    // THIS FIXED SO MUCH you have no idea. what a mess
-                            if (!string.IsNullOrEmpty(tempS1))  // super important to not use br.String() unless it's in a temp var - has a limit of 1 use
+                            // Simplified my logic in this load
+                            for (int j = 0; j < Col; j++)
                             {
-                                GlobalArray[i, 0] = tempS1.ToUpper(); // <-- TEST REPORT
-
-                                for (int j = 1; j < Col; j++)
-                                {
-                                    string tempS2 = bR.ReadString(); 
-
-                                    if (!string.IsNullOrEmpty(tempS2))
-                                    {
-                                        GlobalArray[i, j] = tempS2; 
-                                    }
-                                    else
-                                    {
-                                        break; // Break the inner loop if no more data to read
-                                    }
-                                }
-                                CurrentTotal++; // new item has been added
+                                GlobalArray[i, j] = bR.ReadString();
                             }
+
+                            CurrentTotal++; // new item has been added
                         }
+
                         InitializeListView(ListView_Array); // Update list with new content :)
                         toolStripStatusLabel1.Text = "Successfully loaded file from: " + openFileDialog.FileName;
                     }
